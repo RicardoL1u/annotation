@@ -15,6 +15,9 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from .annotate_data import annotate_data
+
+    app.register_blueprint(annotate_data, url_prefix='/')
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
