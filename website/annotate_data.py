@@ -10,6 +10,7 @@ dataset = json.load(open('website/company_data.json'))
 
 @annotate_data.route('/pageID=<idx>')
 def data(idx):
+    if request.method == 'GET':
     print(f'dump to {idx}')
     idx = int(idx)
     data = dataset[idx]
@@ -25,6 +26,15 @@ def submit():
     with open(f"{annotated_data['passage_id']}.json",'w') as f:
         json.dump(annotated_data,f,indent=4,ensure_ascii=False)
     return 'hi'
+
+
+# @annotate_data.route('/submit',methods=['POST'])
+# def submit():
+#     annotated_data = dict(request.form)
+#     annotated_data['question_text_list'] = json.loads(annotated_data['question_text_list'])
+#     with open(f"{annotated_data['passage_id']}.json",'w') as f:
+#         json.dump(annotated_data,f,indent=4,ensure_ascii=False)
+#     return 'hi'
 
 
 
