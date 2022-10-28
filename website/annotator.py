@@ -18,7 +18,7 @@ def login():
             if check_password_hash(annotator.token, token):
                 flash('Logged in successfully!', category='success')
                 login_user(annotator, remember=True)
-                return url_for('annotate_data.data',idx=str(123))
+                return url_for('annotate_data.data',idx=str(0))
             else:
                 flash('Incorrect token, try again.', category='error')
         else:
@@ -44,7 +44,7 @@ def sign_up():
             db.session.commit()
             login_user(new_annotator, remember=True)
             flash('Account created!', category='success')
-            return url_for('annotate_data.data',idx=str(123))
+            return url_for('annotate_data.data',idx=str(0))
 
     return render_template("sign_up.html", user=current_user)
 
