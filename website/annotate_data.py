@@ -14,7 +14,7 @@ dataset = json.load(open('website/company_data.json'))
 def data(idx):
     idx = int(idx)
     data = dataset[idx]
-    output_filename = f"{idx}_{current_user.annotator_name}_{data['id']}.json"
+    output_filename = f"data/{idx}_{current_user.annotator_name}_{data['id']}.json"
     if request.method == 'GET':
         print(f'dump to {idx}')
         
