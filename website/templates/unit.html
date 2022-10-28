@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <title>{{data['title']}}</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        var idx = {{idx}};
+        var question_num = "{{data['questions']|length}}";
+        var data = {{data|tojson}}
+    </script>
+</head>
+
+<body>
+
+    <h1>{{data['title']}}</h1>
+    <p>{{ori_topic_entity}}</p>
+    <p>{{data['context'].replace(ori_topic_entity,replace_text) | safe}}</p>
+    <h2>topic entity</h2>
+    <p>{{data['topic_entity']['wikidata_id']}}</p>
+    <a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
+
+    <!-- <h2>question</h2>]>{{data['topic_entity']['url']}}</p> -->
+    <p>{{data['topic_entity']['en']}}</p>
+    <p>{{data['topic_entity']['zh']}}</p>
+    <p>{{data['topic_entity']['instance_of']}}</p>
+    <p>{{data['topic_entity']['anonymous_name']}}</p>
+    <p>Name:</p>
+    <p><input type="text" id="anonymous_name" /></p>
+    <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
+    <h2>questions</h2>
+    {% for question in data['questions'] %}
+    
+    <!-- <p>{{loop.index0}}</p> -->
+    <!-- <form action="#" method="post"> -->
+    <p>Question:</p>
+    <p><input type="text" id="question_text_{{loop.index0}}" /></p>
+    <!-- </form> -->
+    {% endfor %}
+    <p><button id="submit" onclick="submit()">submit</button></p>
+
+</body>
+
+<script>
+    function replace() {
+        anno = $('#anonymous_name').val();
+        $('.entity').html(anno);
+    }
+    function submit(){
+        annoymous_name = $('#anonymous_name').val();
+        question_text_list = Array()
+        for (let i = 0; i < question_num; i++) {
+            question_text_list.push(
+                {
+                    'question_id': data['questions'][i]['id'],
+                    'question_text':$('#question_text_'+i.toString()).val()
+                }
+            );
+        }
+        // console.log(question_text_list)
+        
+        $.ajax({
+            type: 'POST',
+            async: true,
+            url: 'http://127.0.0.1:5000/submit',
+            data: { 
+                'passage_id': data['id'],
+                'annoymous_name': annoymous_name,
+                'question_text_list': JSON.stringify(question_text_list), 
+            },
+            success: (e) => {
+                // console.log('hi')
+                // console.log(e)
+                // console.log('http://127.0.0.1:5000/pageID=' + (idx+1).toString())
+                location.href = 'http://127.0.0.1:5000/pageID=' + (idx+1).toString();
+            }
+        });
+    }
+</script>
+
+</html>
