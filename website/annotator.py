@@ -52,4 +52,4 @@ def sign_up():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('annotator.annotator'))
+    return redirect(url_for('annotator.login'))
