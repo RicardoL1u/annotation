@@ -5,7 +5,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         var idx = {{idx}};
-        var question_num = "{{data['questions']|length}}";
+        var question_num = {{question_num}}
         var data = {{data|tojson}}
     </script>
 </head>
@@ -25,15 +25,15 @@
     <p>{{data['topic_entity']['instance_of']}}</p>
     <p>{{data['topic_entity']['anonymous_name']}}</p>
     <p>Name:</p>
-    <p><input type="text" id="anonymous_name" /></p>
+    <p><input type="text" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
     <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
     <h2>questions</h2>
-    {% for question in data['questions'] %}
+    {% for loop_idx in range(question_num) %}
     
     <!-- <p>{{loop.index0}}</p> -->
     <!-- <form action="#" method="post"> -->
     <p>Question:</p>
-    <p><input type="text" id="question_text_{{loop.index0}}" /></p>
+    <p><input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
     <!-- </form> -->
     {% endfor %}
     <p><button id="submit" onclick="submit()">submit</button></p>
