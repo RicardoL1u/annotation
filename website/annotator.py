@@ -18,16 +18,13 @@ def login():
             if check_password_hash(annotator.token, token):
                 flash('Logged in successfully!', category='success')
                 login_user(annotator, remember=True)
-                return redirect(url_for('views.home'))
+                return url_for('annotate_data.data',idx=str(123))
             else:
                 flash('Incorrect token, try again.', category='error')
         else:
             flash('annotator does not exist.', category='error')
 
     return render_template("login.html", annotator=current_user)
-
-
-
 
 
 @annotator.route('/sign_up', methods=['GET', 'POST'])
