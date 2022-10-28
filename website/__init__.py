@@ -1,4 +1,5 @@
-from flask import Flask
+from nturl2path import url2pathname
+from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
@@ -12,18 +13,18 @@ def create_app():
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
-
-    from .views import views
-    from .auth import auth
+    
+    # from .views import views
+    # from .auth import auth
     from .annotate_data import annotate_data
     from .annotator import annotator
 
     app.register_blueprint(annotate_data, url_prefix='/')
+    app.register_blueprint(annotator,url_prefix='/')
+    # app.register_blueprint(views, url_prefix='/')
+    # app.register_blueprint(auth, url_prefix='/')
 
-    app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
-
-    from .models import User, Note
+    # from .models import User, Note
 
     create_database(app)
 
@@ -31,9 +32,9 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
+    # @login_manager.user_loader
+    # def load_user(id):
+    #     return User.query.get(int(id))
 
     return app
 
