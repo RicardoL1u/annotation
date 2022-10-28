@@ -61,7 +61,7 @@
         $.ajax({
             type: 'POST',
             async: true,
-            url: 'http://127.0.0.1:5000/submit',
+            url: 'http://127.0.0.1:5000/pageID=' + idx.toString(),
             data: { 
                 'passage_id': data['id'],
                 'annoymous_name': annoymous_name,
