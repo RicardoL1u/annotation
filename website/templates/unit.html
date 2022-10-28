@@ -56,6 +56,26 @@
 </body>
 
 <script>
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        console.log(evt)
+        if ( evt.keyCode == 37) {
+            if (idx > 0) {
+                location.href = 'http://127.0.0.1:5000/pageID=' + (idx-1).toString();
+            }
+            else{
+                alert('Already at the first data point.')
+            }
+        }
+        if ( evt.keyCode == 39) {
+            if (idx == 13321){ // TODO: this written code not good
+                alert('This is the last data point.')
+            }
+            else{
+                location.href = 'http://127.0.0.1:5000/pageID=' + (idx+1).toString();
+            }
+        }
+    };
     function replace() {
         anno = $('#anonymous_name').val();
         $('.entity').html(anno);
