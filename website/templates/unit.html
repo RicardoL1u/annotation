@@ -13,28 +13,41 @@
 <body>
 
     <h1>{{data['title']}}</h1>
-    <p>{{ori_topic_entity}}</p>
     <p>{{data['context'].replace(ori_topic_entity,replace_text) | safe}}</p>
-    <h2>topic entity</h2>
-    <p>{{data['topic_entity']['wikidata_id']}}</p>
-    <a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
+    <h2>Topic Entity:{{ori_topic_entity}}:{{data['topic_entity']['en']['label']}}</h2>
+    <p><b>wikidata_id</b>{{data['topic_entity']['wikidata_id']}}</p>
+    <b>Wikipedia URL</b><a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
 
-    <!-- <h2>question</h2>]>{{data['topic_entity']['url']}}</p> -->
-    <p>{{data['topic_entity']['en']}}</p>
-    <p>{{data['topic_entity']['zh']}}</p>
-    <p>{{data['topic_entity']['instance_of']}}</p>
-    <p>{{data['topic_entity']['anonymous_name']}}</p>
-    <p>Name:</p>
+    <p><b>Label:</b>{{data['topic_entity']['en']['label']}}</p>
+    <p><b>Description:</b>{{data['topic_entity']['en']['description']}}</p>
+    <p><b>Alt Label:</b>{{data['topic_entity']['en']['altLabel']}}</p>
+    <p><b>标签:</b>{{data['topic_entity']['zh']['label']}}</p>
+    <p><b>描述:</b>{{data['topic_entity']['zh']['description']}}</p>
+    <p><b>其他标签:</b>{{data['topic_entity']['zh']['altLabel']}}</p>     
+    <p><b>可供参考的匿名化名称：</b>{{data['topic_entity']['anonymous_name']}}</p>
+    <p><b> 请给出你认为适当的匿名化名称:</b></p>
     <p><input type="text" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
     <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
-    <h2>questions</h2>
+    <h2>Questions</h2>
     {% for loop_idx in range(question_num) %}
-    
-    <!-- <p>{{loop.index0}}</p> -->
-    <!-- <form action="#" method="post"> -->
-    <p>Question:</p>
-    <p><input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
-    <!-- </form> -->
+        <h3 >wikidata_id: <a href="{{data['questions'][loop_idx]['relation']['url']}}">{{data['questions'][loop_idx]['relation']['wikidata_id']}}</a> </h3>
+        {% if  data['questions'][loop_idx]['relation']['reversed']%}
+            <p><b style="color:red">Question to the reverse of the relation</b> </p>
+        {% else%}
+            <p><b style="color:red">Question to the origin relation</b> </p>
+        {% endif%}
+        <p><b>Label:</b>{{data['questions'][loop_idx]['relation']['en']['label']}}</p>
+        <p><b>Description:</b>{{data['questions'][loop_idx]['relation']['en']['description']}}</p>
+        <p><b>Alt Label:</b>{{data['questions'][loop_idx]['relation']['en']['altLabel']}}</p>
+        <p><b>Example:</b>{{data['questions'][loop_idx]['relation']['example']['en']}}</p>
+        <p><b>标签:</b>{{data['questions'][loop_idx]['relation']['zh']['label']}}</p>
+        <p><b>描述:</b>{{data['questions'][loop_idx]['relation']['zh']['description']}}</p>
+        <p><b>其他标签:</b>{{data['questions'][loop_idx]['relation']['zh']['altLabel']}}</p>
+        <p><b>例子:</b>{{data['questions'][loop_idx]['relation']['example']['zh']}}</p>
+
+        <p>Question:</p>
+        <p><input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
+
     {% endfor %}
     <p><button id="submit" onclick="submit()">submit</button></p>
 
