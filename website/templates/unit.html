@@ -14,6 +14,9 @@
 
     <h1>{{data['title']}}</h1>
     <p>{{data['context'].replace(ori_topic_entity,replace_text) | safe}}</p>
+    
+    <hr>
+
     <h2>Topic Entity:{{ori_topic_entity}}:{{data['topic_entity']['en']['label']}}</h2>
     <p><b>wikidata_id: </b>{{data['topic_entity']['wikidata_id']}}</p>
     <b>Wikipedia URL: </b><a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
@@ -28,7 +31,10 @@
     <p><b> 请给出你认为适当的匿名化名称:</b></p>
     <p><input type="text" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
     <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
+    
+    <hr>
     <h2>Questions</h2>
+
     {% for loop_idx in range(question_num) %}
         <h3 >wikidata_id: <a href="{{data['questions'][loop_idx]['relation']['url']}}">{{data['questions'][loop_idx]['relation']['wikidata_id']}}</a> </h3>
         {% if  data['questions'][loop_idx]['relation']['reversed']%}
@@ -49,7 +55,7 @@
 
         <p>Question:</p>
         <p><input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
-
+        <hr />
     {% endfor %}
     <p><button id="submit" onclick="submit()">submit</button></p>
 
