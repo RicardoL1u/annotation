@@ -14,6 +14,10 @@ dataset = json.load(open('website/company_data.json'))
 def data(idx):
     idx = int(idx)
     data = dataset[idx]
+    if 'altLabel' in data['topic_entity']['en'].keys():
+        data['topic_entity']['en']['altLabel'] = data['topic_entity']['en']['altLabel'][:10]
+    if 'altLabel' in data['topic_entity']['zh'].keys():
+        data['topic_entity']['zh']['altLabel'] = data['topic_entity']['zh']['altLabel'][:10]
     output_filename = f"data/{idx}_{current_user.annotator_name}_{data['id']}.json"
     if request.method == 'GET':
         print(f'dump to {idx}')
