@@ -13,9 +13,9 @@
 
         .passage {
             /* padding: 10px 16px; */
-            background: rgb(66, 65, 65);
-            color: #f1f1f1;
-            height: 21rem;
+            /* background: rgb(66, 65, 65);
+            color: #f1f1f1; */
+            height: 100%;
         }
             
         .sticky {
@@ -25,35 +25,44 @@
         }
      
         .content{
-            margin-top: 22rem;
+            margin-top: 0rem;
+        }
+        .vl {
+            border-left: 3px dashed rgb(0, 0, 0);
+            height: 100%;
+            position: fixed;
+            left: 55.9%;
+            margin-left: -3px;
+            top: 0;
         }
     </style>
 </head>
 
 <body>
-    <div class="passage sticky", id="passage">
-        <h1>{{data['title']}}</h1>
-        <p>{{data['context'].replace(ori_topic_entity,replace_text) | safe}}</p>
-    </div>
-    
-    
-    <div class="content">
+    <div class="passage sticky", id="passage", style="width: 55%; float:left">
+        <!-- <h2>Passage</h2> -->
         <h2>Topic Entity:{{ori_topic_entity}}:{{data['topic_entity']['en']['label']}}</h2>
-        <p><b>wikidata_id: </b>{{data['topic_entity']['wikidata_id']}}</p>
-        <b>Wikipedia URL: </b><a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
+        <p>{{data['context'].replace(ori_topic_entity,replace_text) | safe}}</p>
+        <p><b>WIKIDATA URL: </b><a href="https://wikidata.org/wiki/{{data['topic_entity']['wikidata_id']}}">https://wikidata.org/wiki/{{data['topic_entity']['wikidata_id']}}</a> </p>
+        <b>WIKIPEDIA URL: </b><a href={{data['topic_entity']['url']}}>{{data['topic_entity']['url']}}</a>
     
-        <p><b>Label:</b>{{data['topic_entity']['en']['label']}}</p>
-        <p><b>Description:</b>{{data['topic_entity']['en']['description']}}</p>
+        <p><b>Label (标签):    </b>{{data['topic_entity']['en']['label']}}  ({{data['topic_entity']['zh']['label']}}) </p>
+        <p><b>Description (描述):  </b>{{data['topic_entity']['en']['description']}} ({{data['topic_entity']['zh']['description']}})</p>
         <p><b>Alt Label:</b>{{data['topic_entity']['en']['altLabel']}}</p>
-        <p><b>标签:</b>{{data['topic_entity']['zh']['label']}}</p>
-        <p><b>描述:</b>{{data['topic_entity']['zh']['description']}}</p>
+        <!-- <p></p> -->
+        <!-- <p></p> -->
         <p><b>其他标签:</b>{{data['topic_entity']['zh']['altLabel']}}</p>     
         <p><b>可供参考的匿名化名称：</b>{{data['topic_entity']['anonymous_name']}}</p>
         <p><b> 请给出你认为适当的匿名化名称:</b></p>
         <p><input type="text" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
         <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
+    </div>
+    
+    <div class="vl"></div>
+
+    <div class="content", style="width: 43%; float:right">
         
-        <hr>
+        <!-- <hr> -->
         <h2>Questions</h2>
     
         {% for loop_idx in range(question_num) %}
@@ -73,9 +82,8 @@
             <p><b>描述:</b>{{data['questions'][loop_idx]['relation']['zh']['description']}}</p>
             <p><b>其他标签:</b>{{data['questions'][loop_idx]['relation']['zh']['altLabel']}}</p>
             <p><b>例子:</b>{{data['questions'][loop_idx]['relation']['example']['zh']}}</p>
-    
-            <p>Question:</p>
-            <p><input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
+            <p><b>答案:</b></p>
+            <p>Question:<input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
             <hr />
         {% endfor %}
         <p><button id="submit" onclick="submit()">submit</button></p>
