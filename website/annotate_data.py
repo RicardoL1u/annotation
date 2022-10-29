@@ -36,7 +36,10 @@ def data(idx):
                 ]
             }
         ori_topic_entity = re.findall(r'\[.*?\_[0-9]+\]',data['context'])[0]
-        return render_template('unit.html',idx=idx,question_num=len(data['questions']), data=data,filled_values=filled_values,ori_topic_entity = ori_topic_entity,replace_text = f'<b class="entity", style="color:red">{ori_topic_entity}</b>')
+        return render_template('unit.html',idx=idx,question_num=len(data['questions']), 
+            data=data,filled_values=filled_values,ori_topic_entity = ori_topic_entity,
+            answers = [ [ans['label'] for ans in q['answers']] for q in data['questions']],
+            replace_text = f'<b class="entity", style="color:red">{ori_topic_entity}</b>')
     else:
         print(current_user)
         print(current_user.annotator_name)
