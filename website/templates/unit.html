@@ -54,7 +54,7 @@
         <p><b>其他标签:</b>{{data['topic_entity']['zh']['altLabel']}}</p>     
         <p><b>可供参考的匿名化名称：</b>{{data['topic_entity']['anonymous_name']}}</p>
         <p><b> 请给出你认为适当的匿名化名称:</b></p>
-        <p><input type="text" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
+        <p><input type="text" size="100%" id="anonymous_name" value="{{filled_values['annoymous_name']}}" /></p>
         <p><button id="submit" onclick="replace()">replace anonymous name in text</button></p>
     </div>
     
@@ -83,7 +83,7 @@
             <p><b>其他标签:</b>{{data['questions'][loop_idx]['relation']['zh']['altLabel']}}</p>
             <p><b>例子:</b>{{data['questions'][loop_idx]['relation']['example']['zh']}}</p>
             <p><b>答案:</b>{{answers[loop_idx]}}</p>
-            <p>Question:<input type="text" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
+            <p>Question:<input type="text" size="80%" id="question_text_{{loop_idx}}" value="{{filled_values['question_text_list'][loop_idx]['question_text']}}" /></p>
             <hr />
         {% endfor %}
         <p><button id="submit" onclick="submit()">submit</button></p>
