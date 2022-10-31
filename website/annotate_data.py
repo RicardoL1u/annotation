@@ -5,8 +5,9 @@ from . import db
 import json
 import re
 import os
+from .models import Passage
 annotate_data = Blueprint('annotate_data', __name__)
-dataset = json.load(open('website/company_data.json'))
+dataset = json.load(open('data/company_data.json'))
 
 
 @annotate_data.route('/pageID=<idx>',methods=['GET','POST'])
