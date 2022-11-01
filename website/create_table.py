@@ -16,14 +16,16 @@ meta = MetaData()
 
 manager = Table(
    'manager', meta,
-   Column('phone',String, primary_key = True),
+   Column('id', Integer, primary_key=True, autoincrement=True), 
+   Column('phone',String, unique = True),
    Column('name', String, unique=True, nullable=False),
    Column('token', String,nullable=False),
 )
 
 annotator = Table(
    'annotator', meta, 
-   Column('phone', String,primary_key=True),
+   Column('id', Integer, primary_key=True, autoincrement=True), 
+   Column('phone', String,unique=True),
    Column('name', String, nullable=False,unique = True), 
    Column('token', String,nullable=False),
    Column('manager_phone', Integer, ForeignKey('manager.phone')),
@@ -32,14 +34,14 @@ annotator = Table(
 passage = Table(
    'passage', meta, 
    Column('id', Integer, primary_key = True, autoincrement = True),
-   Column('passage_id', String, unique=True, nullable=False),
+   Column('ori_id', String, unique=True, nullable=False),
    Column('done',Boolean, default=False),
 )
 
 annotated_data = Table(
    'annotated_data', meta, 
    Column('id', Integer, primary_key=True, autoincrement=True), 
-   Column('passage_id', String, ForeignKey('passage.passage_id')),
+   Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
    Column('create_timestamp', DATETIME, default = "CURRENT_TIMESTAMP"), 
    Column('annotator_phone', String, ForeignKey('annotator.phone')),
    Column('annotated_filename', String, nullable=False,unique=True), 
@@ -50,7 +52,8 @@ annotator_task = Table(
    Column('id', Integer, primary_key=True, autoincrement=True),
    Column('annotator_phone', String, ForeignKey('annotator.phone')),
    Column('task_done_number', Integer, default=0),
-   Column('passage_id', String, ForeignKey('passage.passage_id')),
+   Column('passage_id', Integer, ForeignKey('passage.id')),
+   Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
    Column('reviewed', Integer, default=0),
    Column('annotated_filename', String, ForeignKey('annotated_data.annotated_filename')),
 )
@@ -63,7 +66,7 @@ dataset = json.load(open('../data/company_data.json'))
 conn = engine.connect()
 
 conn.execute(passage.insert(),[
-      {'passage_id':data['id']}
+      {'ori_id':data['id']}
       for data in dataset
    ]
 )
