@@ -7,14 +7,14 @@ class Manager(db.Model, UserMixin):
     id = db.Column(db.String, primary_key=True) # id is phone
     name = db.Column(db.String, nullable=False, unique=True)
     token = db.Column(db.String, nullable=False)
-
+    role = db.Column(db.String, default='manager')
 class Annotator(db.Model,UserMixin):
     # id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, unique=True)
     token = db.Column(db.String, unique=True)
     manager_id = db.Column(db.String, db.ForeignKey('manager.id'))
-
+    role = db.Column(db.String, default='annotator')    
 
 class Passage(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

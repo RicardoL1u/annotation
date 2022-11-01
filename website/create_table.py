@@ -20,6 +20,7 @@ manager = Table(
    Column('id',String, primary_key=True),
    Column('name', String, unique=True, nullable=False),
    Column('token', String,nullable=False),
+   Column('role', String, default='manager'),
 )
 
 annotator = Table(
@@ -29,6 +30,7 @@ annotator = Table(
    Column('name', String, nullable=False,unique = True), 
    Column('token', String,nullable=False),
    Column('manager_id', Integer, ForeignKey('manager.id')),
+   Column('role', String, default='annotator'),
 )
 
 passage = Table(
@@ -41,7 +43,7 @@ passage = Table(
 annotated_data = Table(
    'annotated_data', meta, 
    Column('id', Integer, primary_key=True, autoincrement=True), 
-   Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
+   Column('passage_id', Integer, ForeignKey('passage.id')),
    Column('create_timestamp', DATETIME, default = "CURRENT_TIMESTAMP"), 
    Column('annotator_id', String, ForeignKey('annotator.id')),
    Column('annotated_filename', String, nullable=False,unique=True), 
