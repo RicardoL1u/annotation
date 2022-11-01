@@ -18,13 +18,16 @@ def create_app():
     # from .auth import auth
     from .annotate_data import annotate_data
     from .annotator import annotator
+    from .manager import manager
 
     app.register_blueprint(annotate_data, url_prefix='/')
-    app.register_blueprint(annotator,url_prefix='/')
+    app.register_blueprint(annotator,url_prefix='/annotator/')
+    app.register_blueprint(manager,url_prefix='/manager/')
+
     # app.register_blueprint(views, url_prefix='/')
     # app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Annotator
+    from .models import Annotator, Manager
 
     create_database(app)
 
