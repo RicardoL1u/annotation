@@ -7,49 +7,62 @@ annotator = Blueprint('annotator', __name__)
 # dataset = json.load(open('website/company_data.json'))
 
 
-@annotator.route('/login', methods=['GET', 'POST'])
+@annotator.route('/login', methods=['POST'])
 def login():
+    print(request)
     if request.method == 'POST':
-        annotator_name = request.form.get('annotator_name')
-        token = request.form.get('token')
-
-        annotator = Annotator.query.filter_by(annotator_name=annotator_name).first()
+        print(request.json)
+        id = request.json.get('id')
+        token = request.json.get('token')
+        print(id)
+        print(token)
+        annotator = Annotator.query.filter_by(id=id).first()
         if annotator:
             if check_password_hash(annotator.token, token):
-                flash('Logged in successfully!', category='success')
-                login_user(annotator, remember=True)
-                return url_for('annotate_data.data',idx=str(0))
+                login_user(annotator,remember=True)
+                return {
+                    'message': 'Logged in successfully!',
+                    'code': 1,
+                }
             else:
-                flash('Incorrect token, try again.', category='error')
+                return {
+                    'message': 'The token is invalid. Please try again.',
+                    'code': 0
+                }
         else:
-            flash('annotator does not exist.', category='error')
+            return {
+                'message':'You are not authorized to view this page',
+                'code':0
+            }
 
-    return render_template("login.html", annotator=current_user)
 
+# @annotator.route('/sign_up', methods=['GET', 'POST'])
+# def sign_up():
+#     if request.method == 'POST':
+#         annotator_name = request.form.get('annotator_name')
+#         token = request.form.get('token')
 
-@annotator.route('/sign_up', methods=['GET', 'POST'])
-def sign_up():
-    if request.method == 'POST':
-        annotator_name = request.form.get('annotator_name')
-        token = request.form.get('token')
+#         annotator = Annotator.query.filter_by(annotator_name=annotator_name).first()
+#         print('what')
+#         if annotator:
+#             flash('Annotator already exists.', category='error')
+#         else:
+#             new_annotator = Annotator(annotator_name=annotator_name, token=generate_password_hash(
+#                 token, method='sha256'))
+#             db.session.add(new_annotator)
+#             db.session.commit()
+#             login_user(new_annotator, remember=True)
+#             flash('Account created!', category='success')
+#             return url_for('annotate_data.data',idx=str(0))
 
-        annotator = Annotator.query.filter_by(annotator_name=annotator_name).first()
-        print('what')
-        if annotator:
-            flash('Annotator already exists.', category='error')
-        else:
-            new_annotator = Annotator(annotator_name=annotator_name, token=generate_password_hash(
-                token, method='sha256'))
-            db.session.add(new_annotator)
-            db.session.commit()
-            login_user(new_annotator, remember=True)
-            flash('Account created!', category='success')
-            return url_for('annotate_data.data',idx=str(0))
+#     return render_template("sign_up.html", user=current_user)
 
-    return render_template("sign_up.html", user=current_user)
-
-@annotator.route('/logout')
+@annotator.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('annotator.login'))
+    return {
+        'mesage': 'You have successfully logged out',
+        'code': 1,
+    }
+
