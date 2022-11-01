@@ -20,7 +20,7 @@ def create_app():
     from .annotator import annotator
     from .manager import manager
 
-    app.register_blueprint(annotate_data, url_prefix='/')
+    app.register_blueprint(annotate_data, url_prefix='/data/')
     app.register_blueprint(annotator,url_prefix='/annotator/')
     app.register_blueprint(manager,url_prefix='/manager/')
 
@@ -36,18 +36,19 @@ def create_app():
     login_manager.init_app(app)
 
     @login_manager.user_loader
-    def load_user(phone):
+    def load_user(id):
         # Annotator.get()
-        # print('user')
-        # print(Annotator.query.get(int(id)))
-        user = Manager.query.get(phone)
+        print(id)
+        user = Manager.query.get(id)
         print('manager')
-        print( Manager.query.get(phone))
-        print(user.phone)
+        print( Manager.query.get(id))
+        print('user')
+        print(Annotator.query.get(id))
+        # print(user.id)
         if user:
             return user
         else:
-            return Annotator.query.get(phone)
+            return Annotator.query.get(id)
 
     return app
 

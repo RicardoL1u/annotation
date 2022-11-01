@@ -16,19 +16,19 @@ meta = MetaData()
 
 manager = Table(
    'manager', meta,
-   Column('id', Integer, primary_key=True, autoincrement=True), 
-   Column('phone',String, unique = True),
+   # Column('id', Integer, primary_key=True, autoincrement=True), 
+   Column('id',String, primary_key=True),
    Column('name', String, unique=True, nullable=False),
    Column('token', String,nullable=False),
 )
 
 annotator = Table(
    'annotator', meta, 
-   Column('id', Integer, primary_key=True, autoincrement=True), 
-   Column('phone', String,unique=True),
+   # Column('id', Integer, primary_key=True, autoincrement=True), 
+   Column('id', String, primary_key=True),
    Column('name', String, nullable=False,unique = True), 
    Column('token', String,nullable=False),
-   Column('manager_phone', Integer, ForeignKey('manager.phone')),
+   Column('manager_id', Integer, ForeignKey('manager.id')),
 )
 
 passage = Table(
@@ -43,14 +43,14 @@ annotated_data = Table(
    Column('id', Integer, primary_key=True, autoincrement=True), 
    Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
    Column('create_timestamp', DATETIME, default = "CURRENT_TIMESTAMP"), 
-   Column('annotator_phone', String, ForeignKey('annotator.phone')),
+   Column('annotator_id', String, ForeignKey('annotator.id')),
    Column('annotated_filename', String, nullable=False,unique=True), 
 )
 
 annotator_task = Table(
    'annotator_task', meta,
    Column('id', Integer, primary_key=True, autoincrement=True),
-   Column('annotator_phone', String, ForeignKey('annotator.phone')),
+   Column('annotator_id', String, ForeignKey('annotator.id')),
    Column('task_done_number', Integer, default=0),
    Column('passage_id', Integer, ForeignKey('passage.id')),
    Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
@@ -72,10 +72,10 @@ conn.execute(passage.insert(),[
 )
 
 conn.execute(manager.insert(),[
-   {'name':'liu','phone':'110','token':generate_password_hash('password',method='sha256')}
+   {'name':'liu','id':'110','token':generate_password_hash('password',method='sha256')}
 ])
 
 conn.execute(annotator.insert(),[
-      {'name':'liu','phone':'156','token':generate_password_hash('password',method='sha256'),'manager_phone':'110'}
+      {'name':'liu','id':'156','token':generate_password_hash('password',method='sha256'),'manager_id':'110'}
    ]
 )

@@ -10,11 +10,11 @@ def login():
     print(request)
     if request.method == 'POST':
         print(request.json)
-        phone = request.json.get('phone')
+        id = request.json.get('id')
         token = request.json.get('token')
-        print(phone)
+        print(id)
         print(token)
-        manager = Manager.query.filter_by(phone=phone).first()
+        manager = Manager.query.filter_by(id=id).first()
         if manager:
             if check_password_hash(manager.token, token):
                 login_user(manager,remember=True)
@@ -36,13 +36,13 @@ def login():
 @manager.route('/get_annotators', methods=['POST'])
 @login_required
 def get_annotators():
-    annotators = Annotator.query.filter_by(manager_phone=current_user.phone).all()
+    annotators = Annotator.query.filter_by(manager_id=current_user.id).all()
     return {
         'message':'Annotators list',
         'annotators': [{
-            'phone':x.phone,
+            'id':x.id,
             'name':x.name,
-            'manager_phone':x.manager_phone,
+            'manager_id':x.manager_id,
         } for x in annotators],
         'code':1
     }
@@ -50,8 +50,8 @@ def get_annotators():
 @manager.route('/assign_task', methods = ['POST'])
 @login_required
 def assign_task():
-    annotator_phone = request.json.get('annotator_phone')
-    annotator = Annotator.query.filter_by(phone=annotator_phone, manager_phone=current_user.phone).first()
+    annotator_id = request.json.get('annotator_id')
+    annotator = Annotator.query.filter_by(id=annotator_id, manager_id=current_user.id).first()
     if annotator == None:
         return {
             'message': 'Annotator not found',
@@ -67,9 +67,9 @@ def assign_task():
         passage = Passage.query.get(idx)
         if passage:
             # one passage can only be assigned to one annotator once
-            if AnnotatorTask.query.filter_by(annotator_phone=annotator_phone, passage_id=idx).first() == None:
+            if AnnotatorTask.query.filter_by(annotator_id=annotator_id, passage_id=idx).first() == None:
                 task = AnnotatorTask(
-                    annotator_phone=annotator_phone, 
+                    annotator_id=annotator_id, 
                     passage_id=passage.id,
                     passage_ori_id = passage.ori_id
                 )
