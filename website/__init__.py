@@ -33,8 +33,18 @@ def create_app():
     login_manager.init_app(app)
 
     @login_manager.user_loader
-    def load_user(id):
-        return Annotator.query.get(int(id))
+    def load_user(phone):
+        # Annotator.get()
+        # print('user')
+        # print(Annotator.query.get(int(id)))
+        user = Manager.query.get(phone)
+        print('manager')
+        print( Manager.query.get(phone))
+        print(user.phone)
+        if user:
+            return user
+        else:
+            return Annotator.query.get(phone)
 
     return app
 
