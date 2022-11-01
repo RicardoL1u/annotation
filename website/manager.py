@@ -58,12 +58,12 @@ def assign_task():
             'code': 0
         }
 
-    task_start_idx = request.json.get('task_start_idx')
-    task_end_idx = request.json.get('task_end_idx')
+    passage_start_idx = request.json.get('passage_start_idx')
+    passage_end_idx = request.json.get('passage_end_idx')
 
     #check if the annotator is already assigned to the task
     suc_cnt = 0
-    for idx in range(task_start_idx, task_end_idx+1):
+    for idx in range(passage_start_idx, passage_end_idx+1):
         passage = Passage.query.get(idx)
         if passage:
             # one passage can only be assigned to one annotator once
