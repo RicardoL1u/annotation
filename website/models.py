@@ -40,7 +40,10 @@ class AnnotatorTask(db.Model):
     reviewed = db.Column(db.Integer,default=0) 
     # set default to 0 as not reviewed yet
     # when equal to -1 as need re-annotate
-    # when equal to 1 as task has been completed and need to assign one final result
+    # when equal to 1 as task has been reviewed and need to assign one final result
     annotated_filename = db.Column(db.String, db.ForeignKey('annotated_data.annotated_filename'))
+
+    # annotated data
+    # annotated_filename
 
 
