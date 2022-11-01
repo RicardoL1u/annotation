@@ -5,7 +5,7 @@ from . import db
 import json
 import re
 import os
-from .models import Passage
+from .models import Passage, Annotator, AnnotatorTask, AnnotatedData
 annotate_data = Blueprint('annotate_data', __name__)
 dataset = json.load(open('data/company_data.json'))
 
@@ -13,51 +13,60 @@ dataset = json.load(open('data/company_data.json'))
 @annotate_data.route('/pageID=<idx>',methods=['GET','POST'])
 @login_required
 def data(idx):
+    if current_user.role != 'annotator':
+        return {
+            'message': "Only annotators can access this page.",
+            'code': 0
+        }
     idx = int(idx)
-    data = dataset[idx]
-    if 'altLabel' in data['topic_entity']['en'].keys():
-        data['topic_entity']['en']['altLabel'] = data['topic_entity']['en']['altLabel'][:10]
-    if 'altLabel' in data['topic_entity']['zh'].keys():
-        data['topic_entity']['zh']['altLabel'] = data['topic_entity']['zh']['altLabel'][:10]
-    output_filename = f"data/{idx}_{current_user.annotator_name}_{data['id']}.json"
-    if request.method == 'GET':
-        print(f'dump to {idx}')
-        
-        if os.path.isfile(output_filename):
-            filled_values = json.load(open(output_filename))
-        else:
-            filled_values = {
-                "passage_id": data['id'],
-                "annoymous_name": "",
-                "question_text_list": [
-                    {
-                        "question_id": q['id'],
-                        "question_text": ""
-                    } for q in data['questions']
-                ]
-            }
-        ori_topic_entity = re.findall(r'\[.*?\_[0-9]+\]',data['context'])[0]
-        return render_template('unit.html',idx=idx,question_num=len(data['questions']), 
-            data=data,filled_values=filled_values,ori_topic_entity = ori_topic_entity,
-            answers = [ [ans['label'] for ans in q['answers']] for q in data['questions']],
-            replace_text = f'<b class="entity", style="color:red">{ori_topic_entity}</b>')
-    else:
-        print(current_user)
-        print(current_user.annotator_name)
-        annotated_data = dict(request.form)
-        annotated_data['question_text_list'] = json.loads(annotated_data['question_text_list'])
-        with open(output_filename,'w') as f:
-            json.dump(annotated_data,f,indent=4,ensure_ascii=False)
-        return 'hi'
+    # if idx not in [unit.passage_id for unit in AnnotatorTask.query.filter_by(annotator_id = current_user.id).all()]:
+    task = AnnotatorTask.query.filter_by(annotator_id = current_user.id,passage_id=idx).first()
+    if not task:
+        return {
+            'message': "This annotation task is not available for you",
+            'code': 0
+        }
+    if request.method=='GET':
+        data = dataset[idx]
+        return {
+            'message': "data",
+            'data':data,
+            'code': 1
+        }
+    elif request.method=='POST':
+        annotated_filename = f'{idx}_{current_user.id}_{task.passage_ori_id}_{task.task_done_number}.json'
+        with open('data/'+annotated_filename, 'w') as f:
+            json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
+        task.task_done_number += 1
+        new_annotated_data = AnnotatedData(
+            passage_id=task.passage_id,
+            annotator_id=current_user.id,
+            annotated_filename=annotated_filename,
+        )
+        db.session.add(new_annotated_data)
+        db.session.add(task)
+        db.session.commit()
+        return {
+            'message': "Annotation Task Done!",
+            'code': 1
+        }
+
+# @annotate_data.route('/review_task',methods=["POST"])
+# @login_required
+# def review_task():
 
 
 # @annotate_data.route('/submit',methods=['POST'])
+# @login_required
 # def submit():
 #     annotated_data = dict(request.form)
 #     annotated_data['question_text_list'] = json.loads(annotated_data['question_text_list'])
 #     with open(f"{annotated_data['passage_id']}.json",'w') as f:
 #         json.dump(annotated_data,f,indent=4,ensure_ascii=False)
-#     return 'hi'
+#     return {
+#         'message': "Successful submission",
+#         'code': 1
+#     }
 
 
 
