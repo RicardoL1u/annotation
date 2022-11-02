@@ -1,4 +1,4 @@
-cd website
+cd instance
 rm database.db
 python create_table.py
 cd ..
