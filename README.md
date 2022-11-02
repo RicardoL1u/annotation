@@ -7,7 +7,7 @@
 
 ## 一些测试数据
 
-1. 可以用来测试登录的manager
+1. **可以用来测试登录的manager**
    
     ```bash
     curl -X POST http://127.0.0.1:5000/manager/login -c manager.cookies -H 'Content-Type: application/json' -d '{"id":"110","token":"password"}'
