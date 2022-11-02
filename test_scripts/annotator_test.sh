@@ -8,9 +8,11 @@ curl -X POST http://103.238.162.37:9522/annotator/login -c annotator.cookies -H 
         #     'data':dataset[idx],
         #     'code': 1
         # }
-curl -X GET http://103.238.162.37:9522/data/pageID=13 -b annotator.cookies
+
+# curl -X GET http://103.238.162.37:9522/data/pageID=13 -b annotator.cookies
 
 # "data" contain the annotated result of 13th passage
 curl -X POST http://103.238.162.37:9522/data/pageID=13 -b annotator.cookies -H 'Content-Type: application/json' -d '{"data":{"id":"156","token":"password"}}'
-
+curl -X POST http://103.238.162.37:9522/annotator/get_task_list -b annotator.cookies
+#
 curl -X POST http://103.238.162.37:9522/annotator/logout -b annotator.cookies

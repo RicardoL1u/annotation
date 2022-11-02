@@ -1,8 +1,10 @@
 from flask import Blueprint, request
+
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from . import db
-from .models import Annotator
+from .models import Annotator,AnnotatorTask,Passage
+from .annotate_data import dataset
 annotator = Blueprint('annotator', __name__)
 # dataset = json.load(open('website/company_data.json'))
 
@@ -34,6 +36,28 @@ def login():
                 'message':'You are not authorized to view this page',
                 'code':0
             }
+
+@annotator.route('/get_task_list',methods=['POST'])
+@login_required
+def get_task_list():
+    if current_user.role != 'annotator':
+        return {
+            'message': "Only annotators can access this page.",
+            'code': 0
+        }
+    tasks = AnnotatorTask.query.filter_by(annotator_id = current_user.id).all()
+    return {
+        'message': 'here is the task list',
+        'task_list':[
+            {
+                'passage_id':task.passage_id,
+                'passage_title': dataset[task.passage_id]['title'],
+                'passage_topic_entity':dataset[task.passage_id]['topic_entity']['en']['label'],
+                'task_done_number':task.task_done_number
+            } for task in tasks
+        ],
+        'code':0
+    }
 
 
 # @annotator.route('/sign_up', methods=['GET', 'POST'])

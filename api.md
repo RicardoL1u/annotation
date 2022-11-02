@@ -82,7 +82,38 @@ None
 }
 ```
 
+## Annotator Get Task List
+
+| URL                                         | METHOD | Cookie | Tips |
+| ------------------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/annotator/get_task_list | POST   | True   |      |
+
+**Request Body**
+
+```json
+
+```
+
+**Return Info**
+
+```json
+{
+  "message":"here is the task list",
+  "task_list":[
+    {
+      "passage_id":passage_idx,
+      "passage_title":"title",
+      "task_done_number":task_done_number // integer, equal to 0 for have not done yet
+    }
+  ]
+  "code":0
+}
+```
+
+
+
 ## Annotator Logout
+
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
 | 103.238.162.37:9522/annotator/logout | POST   | True  |      |
@@ -99,6 +130,12 @@ None
   "code":0
 }
 ```
+
+
+
+
+
+
 
 # Manager
 
