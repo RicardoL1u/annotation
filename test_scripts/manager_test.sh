@@ -2,6 +2,10 @@
 # id is phone
 curl -X POST http://103.238.162.37:9522/manager/login -c manager.cookies -H 'Content-Type: application/json' -d '{"id":"110","token":"password"}'
 
+
+curl -X POST http://103.238.162.37:9522/manager/sign_up_annotator -b manager.cookies -H 'Content-Type: application/json' -d '{"annotator_id":"15673309902","annotator_name":"yantao","annotator_token":"password"}'
+
+
 # get all annotators who belongs to this manager
 curl -X POST http://103.238.162.37:9522/manager/get_annotators -b manager.cookies
 

@@ -83,6 +83,23 @@ def assign_task():
         'code': 1
     }
 
+@manager.route('sign_up_annotator',methods=['POST'])
+@login_required
+def sign_up_annotator():
+    new_annotator = Annotator(
+        id=request.json.get('annotator_id'),
+        name = request.json.get('annotator_name'),
+        token = generate_password_hash(request.json.get('annotator_token'),method='sha256'),
+        manager_id = current_user.id,
+        role = 'annotator'
+    )
+    db.session.add(new_annotator)
+    db.session.commit()
+    return {
+        'message': f'Annotator has been successfully sign up',
+        'code':0
+    }
+
 @manager.route('/logout', methods=['POST'])
 @login_required
 def logout():

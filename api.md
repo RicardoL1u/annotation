@@ -189,3 +189,30 @@ None
 ```
 
 这里有一个 suc_cnt 是因为 一篇文章只能被 assign 给一个 annotator 一次，如果第二次重复assign，就会失败，并跳过这一次assign
+
+## Manager Signup Annotator
+
+| URL                                           | METHOD | Cookie | Tips |
+| --------------------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/manager/sign_up_annotator | POST   | True   |      |
+
+**Request Body**
+
+```json
+{
+  "annotator_id":"phone number",
+  "annotator_name": "name",
+  "annotator_token":"password",
+}
+```
+
+**Return Info**
+
+```json
+{
+   "message": "Annotator has been successfully sign up",
+   "code":0
+}
+```
+
+这里有一个 suc_cnt 是因为 一篇文章只能被 assign 给一个 annotator 一次，如果第二次重复assign，就会失败，并跳过这一次assign
