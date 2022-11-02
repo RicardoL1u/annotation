@@ -2,7 +2,7 @@
 ## Annotator Login
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
-| 127.0.0.1:5000/annotator/login | POST   | False  |      |
+| 103.238.162.37:9522/annotator/login | POST   | False  |      |
 
 **Request Body**
 ```json
@@ -32,7 +32,7 @@
 ## Annotator Get one Data Point
 | URL                            | METHOD | Cookie | Tips                                |
 | ------------------------------ | ------ | ------ | ----------------------------------- |
-| 127.0.0.1:5000/data/pageID=idx | GET    | True   | Idx是一个数据点在整个数据集中的下标 |
+| 103.238.162.37:9522/data/pageID=idx | GET    | True   | Idx是一个数据点在整个数据集中的下标 |
 
 **Request Body**
 
@@ -53,7 +53,7 @@ None
 ## Annotator Submit Annotated Data
 | URL                            | METHOD | Cookie | Tips                                     |
 | ------------------------------ | ------ | ------ | ---------------------------------------- |
-| 127.0.0.1:5000/data/pageID=idx | POST   | False  | 注意和上一个api区分（上一个采用GET方法） |
+| 103.238.162.37:9522/data/pageID=idx | POST   | False  | 注意和上一个api区分（上一个采用GET方法） |
 
 **Request Body**
 
@@ -85,7 +85,7 @@ None
 ## Annotator Logout
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
-| 127.0.0.1:5000/annotator/logout | POST   | True  |      |
+| 103.238.162.37:9522/annotator/logout | POST   | True  |      |
 
 **Request Body**
 ```json
@@ -105,7 +105,7 @@ None
 ## Manager Login
 | URL                          | METHOD | Cookie | Tips |
 | ---------------------------- | ------ | ------ | ---- |
-| 127.0.0.1:5000/manager/login | POST   | False  |      |
+| 103.238.162.37:9522/manager/login | POST   | False  |      |
 
 **Request Body**
 ```json
@@ -123,7 +123,7 @@ None
 ## Manager Logout
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
-| 127.0.0.1:5000/manager/logout | POST   | True  |      |
+| 103.238.162.37:9522/manager/logout | POST   | True  |      |
 
 **Request Body**
 ```json
@@ -138,7 +138,7 @@ None
 
 | URL                                   | METHOD | Cookie | Tips |
 | ------------------------------------- | ------ | ------ | ---- |
-| 127.0.0.1:5000/manager/get_annotators | POST   | True   |      |
+| 103.238.162.37:9522/manager/get_annotators | POST   | True   |      |
 
 **Request Body**
 
@@ -166,7 +166,7 @@ None
 
 | URL                                | METHOD | Cookie | Tips |
 | ---------------------------------- | ------ | ------ | ---- |
-| 127.0.0.1:5000/manager/assign_task | POST   | True   |      |
+| 103.238.162.37:9522/manager/assign_task | POST   | True   |      |
 
 **Request Body**
 
