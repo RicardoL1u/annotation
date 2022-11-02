@@ -7,8 +7,8 @@
 **Request Body**
 ```json
 {
-  'id':'phone number',
-  'token':'password'
+  "id":"phone number",
+  "token":"password"
 }
 ```
 
@@ -16,16 +16,16 @@
 
 ```json
 {
-   'message': 'Logged in successfully!',
-   'code': 1,
+   "message": "Logged in successfully!",
+   "code": 1,
 },
 {
-    'message': 'The token is invalid. Please try again.',
-    'code': 0
+    "message": "The token is invalid. Please try again.",
+    "code": 0
 },
 {
-    'message':'You are not authorized to view this page',
-    'code':0
+    "message":"You are not authorized to view this page",
+    "code":0
 }
 ```
 
@@ -44,9 +44,9 @@ None
 
 ```json
 {
-    'message': "data",
-    'data':{}, // data这个字典里数据的格式可以参考 34:/data/lyt/workspace/Seq2Seq-MRC/analysis/company_dataformat.md
-    'code': 1
+    "message": "data",
+    "data":{}, // data这个字典里数据的格式可以参考 34:/data/lyt/workspace/Seq2Seq-MRC/analysis/company_dataformat.md
+    "code": 1
 }
 ```
 
@@ -59,14 +59,14 @@ None
 
 ```json
 {
-  'data':{
-    'passage_id':'passage_hashed_id',
-    'context':'refined context',
-    'annoymous_name': 'xxx',
-    'question_text_list':[
+  "data":{
+    "passage_id":"passage_hashed_id",
+    "context":"refined context",
+    "annoymous_name": "xxx",
+    "question_text_list":[
       {
-        'question_id':'question_hashed_id',
-        'question_text': 'question_text'
+        "question_id":"question_hashed_id",
+        "question_text": "question_text"
       },....
     ]
   }
@@ -77,8 +77,8 @@ None
 
 ```json
 {
-  'message':'Annotation Task Done!',
-  'code':0
+  "message":"Annotation Task Done!",
+  "code":0
 }
 ```
 
@@ -95,8 +95,8 @@ None
 
 ```json
 {
-  'message':'You have successfully logged out',
-  'code':0
+  "message":"You have successfully logged out",
+  "code":0
 }
 ```
 
@@ -110,8 +110,8 @@ None
 **Request Body**
 ```json
 {
-  'id':'phone number',
-  'token':'password'
+  "id":"phone number",
+  "token":"password"
 }
 ```
 
@@ -172,9 +172,9 @@ None
 
 ```json
 {
-  'annotator_id':'phone number',
-  'passage_start_idx':23,
-  'passage_end_idx':32
+  "annotator_id":"phone number",
+  "passage_start_idx":23,
+  "passage_end_idx":32
 }
 ```
 
@@ -182,9 +182,9 @@ None
 
 ```json
 {
-    'message': f'Annotator {suc_cnt} task assigned successfully',
-    'assigned_task_num': suc_cnt,
-    'code': 1
+    "message": f"Annotator {suc_cnt} task assigned successfully",
+    "assigned_task_num": suc_cnt,
+    "code": 1
 }
 ```
 
