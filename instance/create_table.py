@@ -56,7 +56,8 @@ annotator_task = Table(
    Column('task_done_number', Integer, default=0),
    Column('passage_id', Integer, ForeignKey('passage.id')),
    Column('passage_ori_id', String, ForeignKey('passage.ori_id')),
-   Column('reviewed', Integer, default=0),
+   Column('task_status', Integer, default=0),
+   Column('last_done_timestamp', DATETIME, nullable=True, default=None),
    Column('annotated_filename', String, ForeignKey('annotated_data.annotated_filename')),
 )
 

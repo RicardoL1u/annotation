@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 # from .models import Note
 from . import db
 import json
-import re
-import os
+from datetime import datetime
 from .models import Passage, Annotator, AnnotatorTask, AnnotatedData
 annotate_data = Blueprint('annotate_data', __name__)
 dataset = json.load(open('data/company_data.json'))
@@ -38,6 +37,7 @@ def data(idx):
         with open('data/'+annotated_filename, 'w') as f:
             json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
         task.task_done_number += 1
+        task.last_done_timestamp = datetime.now()
         new_annotated_data = AnnotatedData(
             passage_id=task.passage_id,
             annotator_id=current_user.id,
@@ -51,9 +51,6 @@ def data(idx):
             'code': 1
         }
 
-# @annotate_data.route('/review_task',methods=["POST"])
-# @login_required
-# def review_task():
 
 
 # @annotate_data.route('/submit',methods=['POST'])

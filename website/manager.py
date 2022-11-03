@@ -118,7 +118,8 @@ def get_task_list():
                 'passage_id':task.passage_id,
                 'passage_ori_id':task.passage_ori_id,
                 'task_done_number':task.task_done_number,
-                'review':task.reviewed,
+                'task_status':task.task_status,
+                'last_done_timestamp':task.last_done_timestamp,
                 'annotated_filename':task.annotated_filename,
             }for task in AnnotatorTask.query.filter_by(annotator_id=annotator.id).all()
             ]

@@ -37,13 +37,12 @@ class AnnotatorTask(db.Model):
     passage_ori_id = db.Column(db.String, db.ForeignKey('passage.ori_id'))
     task_done_number = db.Column(db.Integer, default=0)
 
-    reviewed = db.Column(db.Integer,default=0) 
-    # set default to 0 as not reviewed yet
-    # when equal to -1 as need re-annotate
-    # when equal to 1 as task has been reviewed and need to assign one final result
-    annotated_filename = db.Column(db.String, db.ForeignKey('annotated_data.annotated_filename'))
+    task_status = db.Column(db.Integer,default=0) 
+    # set default to 0 as not done yet
+    # when equal to 1 as need reviewed new -> if not accepeted -> set back to 0
+    # when equal to 2 as already reviewed and accepted
 
-    # annotated data
-    # annotated_filename
+    last_done_timestamp = db.Column(db.TIMESTAMP)
+    annotated_filename = db.Column(db.String, db.ForeignKey('annotated_data.annotated_filename'))
 
 
