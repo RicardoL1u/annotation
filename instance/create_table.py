@@ -29,7 +29,7 @@ annotator = Table(
    Column('id', String, primary_key=True),
    Column('name', String, nullable=False,unique = True), 
    Column('token', String,nullable=False),
-   Column('manager_id', Integer, ForeignKey('manager.id')),
+   Column('manager_id', String, ForeignKey('manager.id')),
    Column('role', String, default='annotator'),
 )
 
@@ -62,6 +62,8 @@ annotator_task = Table(
 )
 
 meta.create_all(engine)
+
+
 
 import json
 from werkzeug.security import generate_password_hash
