@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import Manager,Annotator, AnnotatorTask,Passage,AnnotatedData
 from . import db
+import json
+from .annotate_data import dataset
 manager = Blueprint('manager', __name__)
 
 @manager.route('/login', methods=['POST'])
@@ -129,6 +131,62 @@ def get_task_list():
         'task_list':tasks,
         'code':1
     }
+
+@manager.route('/review_task',methods=["POST"])
+@login_required
+def review_task():
+    if current_user.role!='manager':
+        return {
+            'message': "Only managers can access this page.",
+            'code': 0
+        }
+    task_id = request.json.get('task_id', None)
+    if  not task_id:
+        return {
+            'message': "Missing required arguments.",
+            'code': 0
+        }
+    task = AnnotatorTask.query.get(task_id)
+    annotator = Annotator.query.get(task.annotator_id)
+    if not annotator or not task:
+        return {
+            'message': "Annotator/Task does not exist.",
+            'code': 0
+        }
+
+    if task.task_status == 0:
+        return {
+            'message': "Annotator task is not in the finished state.",
+            'code': 0
+        }
+    print(type(annotator.manager_id))
+    print(type(current_user.id))
+    if task.annotator_id != annotator.id or annotator.manager_id != current_user.id:
+        return {
+            'message': "You are not allowed to review this task.",
+            'code': 0
+        }
+    task_status = request.json.get('task_status', None)
+    if task_status == None:
+        return {
+            'message': "the last annotated data.",
+            'annotated_data':json.load(open('data/'+task.annotated_filename)),
+            'passage':dataset[task.passage_id-1], # passage id is the id in database (start from 1)
+            'code': 0
+        }
+    task.task_status = task_status
+    # if task_status == 2:
+    #     task.annotated_filename = sorted(AnnotatedData.query.filter_by(annotator_id = annotator.id,passage_id=task.passage_id).all(),key =lambda x: x.create_timestamp,reverse=True)[0].annotated_filename
+    # elif task_status == 0:
+    #     task.annotated_filename = None
+    # print(sorted(AnnotatedData.query.filter_by(annotator_id = annotator.id,passage_id=task.passage_id).all(),key =lambda x: x.create_timestamp,reverse=True)[0].annotated_filename)
+    db.session.add(task)
+    db.session.commit()
+    return {
+        'message': "task status successfully updated.",
+        'code': 1
+    }
+
 
 @manager.route('/logout', methods=['POST'])
 @login_required

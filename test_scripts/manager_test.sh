@@ -16,6 +16,10 @@ curl -X POST http://103.238.162.37:9494/manager/assign_task -b manager.cookies  
 
 curl -X POST http://103.238.162.37:9494/manager/get_task_list -b manager.cookies
 
+curl -X POST http://103.238.162.37:9494/manager/review_task -b manager.cookies -H 'Content-Type: application/json' -d '{"annotator_id":"156","task_id":1}'
+
+curl -X POST http://103.238.162.37:9494/manager/get_task_list -b manager.cookies
+
 
 # manager logout
 curl -X POST http://103.238.162.37:9494/manager/logout -b manager.cookies

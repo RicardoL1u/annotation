@@ -227,22 +227,6 @@ None
 
 这里有一个 suc_cnt 是因为 一篇文章只能被 assign 给一个 annotator 一次，如果第二次重复assign，就会失败，并跳过这一次assign
 
-
-
-```json
-{
-  "annotators": [
-    {
-      "id": "156", // id (aka the phone) of annotator
-      "name": "liu", // annotator name
-      "manager_id": 110
-    }
-  ], 
-  "code": 1, 
-  "message": "Annotators list"
-}
-```
-
 ## Manger Get Task List
 
 | URL                                       | METHOD | Cookie | Tips |
@@ -281,6 +265,56 @@ Task_status == 0 表示这个task需要标注
 Task_status == 1 表示这个task标注完成需要review
 
 Task_status == 2 表示这个task - review完成并认同最新一次的结果
+
+## Manger Get Review Task 
+
+| URL                                       | METHOD | Cookie | Tips |
+| ----------------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/manager/get_task_list | POST   | True   |      |
+
+**Request Body**
+
+```json
+{
+  "task_id":12,
+  "task_status":1 // this could be none, 假如没有这个字段则会返回review 需要的信息
+}
+```
+
+> 关于task status的说明详见 Manger Get Task List 这个api -> 这里是改变这个task_status 的值从而完成review的效果
+
+**Return Info**
+
+假如有 task_status 字段
+
+```json
+{
+  "code": 1,
+  "message": "task status successfully updated."
+}
+```
+
+假如没有 task_status字段
+
+```json
+{
+ "annotated_data": {
+    "id": "156",
+    "token": "password"
+  },
+  "code": 0,
+  "message": "the last annotated data.",
+  "passage": {},
+}
+```
+
+
+
+>Task_status == 0 表示这个task需要标注
+>
+>Task_status == 1 表示这个task标注完成需要review
+>
+>Task_status == 2 表示这个task - review完成并认同最新一次的结果
 
 ## Manager Signup Annotator
 
