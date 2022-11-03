@@ -38,6 +38,7 @@ def data(idx):
             json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
         task.task_done_number += 1
         task.last_done_timestamp = datetime.now()
+        task.task_status = 1
         new_annotated_data = AnnotatedData(
             passage_id=task.passage_id,
             annotator_id=current_user.id,
