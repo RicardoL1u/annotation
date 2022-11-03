@@ -227,6 +227,61 @@ None
 
 这里有一个 suc_cnt 是因为 一篇文章只能被 assign 给一个 annotator 一次，如果第二次重复assign，就会失败，并跳过这一次assign
 
+
+
+```json
+{
+  "annotators": [
+    {
+      "id": "156", // id (aka the phone) of annotator
+      "name": "liu", // annotator name
+      "manager_id": 110
+    }
+  ], 
+  "code": 1, 
+  "message": "Annotators list"
+}
+```
+
+## Manger Get Task List
+
+| URL                                       | METHOD | Cookie | Tips |
+| ----------------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/manager/get_task_list | POST   | True   |      |
+
+**Request Body**
+
+```json
+
+```
+
+**Return Info**
+
+```json
+{
+  "code": 1,
+  "messages": "here is the task list of this manager",
+  "task_list": [
+    {
+      "annotated_filename": null,
+      "annotator_id": "156",
+      "last_done_timestamp": "Thu, 03 Nov 2022 11:19:17 GMT",
+      "passage_id": 11,
+      "passage_ori_id": "df3d0e4eccad5b1c290d4714a1149a8b02d75bb4ae86db231194d03ab7df5b73",
+      "task_done_number": 1,
+      "task_id": 1,
+      "task_status": 1
+    },
+  ]
+}
+```
+
+Task_status == 0 表示这个task需要标注
+
+Task_status == 1 表示这个task标注完成需要review
+
+Task_status == 2 表示这个task - review完成并认同最新一次的结果
+
 ## Manager Signup Annotator
 
 | URL                                           | METHOD | Cookie | Tips |
