@@ -100,6 +100,35 @@ def sign_up_annotator():
         'code':0
     }
 
+@manager.route('/get_task_list',methods=["POST"])
+@login_required
+def get_task_list():
+    if current_user.role != 'manager':
+        return {
+            'message': "Only managers can access this page.",
+            'code': 0
+        }
+    annotators = Annotator.query.filter_by(manager_id=current_user.id).all()
+    tasks = []
+    for annotator in annotators:
+        tasks.extend([
+            {
+                'task_id':task.id,
+                'annotator_id':task.annotator_id,
+                'passage_id':task.passage_id,
+                'passage_ori_id':task.passage_ori_id,
+                'task_done_number':task.task_done_number,
+                'review':task.reviewed,
+                'annotated_filename':task.annotated_filename,
+            }for task in AnnotatorTask.query.filter_by(annotator_id=annotator.id).all()
+            ]
+        )
+    return {
+        'messages':'here is the task list of this manager',
+        'task_list':tasks,
+        'code':1
+    }
+
 @manager.route('/logout', methods=['POST'])
 @login_required
 def logout():
