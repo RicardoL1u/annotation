@@ -26,7 +26,9 @@ def data(idx):
             'code': 0
         }
     if request.method=='GET':
-        data = dataset[idx]
+        data = dataset[idx-1] # because the database passage index starts at 1 !!!!!
+        if 'altLabel' not in data['topic_entity']['zh'].keys():
+            data['topic_entity']['zh']['altLabel'] = []
         return {
             'message': "data",
             'data':data,
