@@ -8,8 +8,6 @@ from sqlalchemy import (
    Column, 
    Integer, 
    String,
-   insert,
-   values
 )
 engine = create_engine('sqlite:///database.db', echo = True)
 meta = MetaData()
