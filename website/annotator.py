@@ -33,7 +33,7 @@ def login():
                 }
         else:
             return {
-                'message':'You are not authorized to view this page',
+                'message':'Annotator not exist, plz connect to your manager',
                 'code':0
             }
 

@@ -31,7 +31,7 @@ def login():
                 }
         else:
             return {
-                'message':'You are not authorized to view this page',
+                'message':'Manager not exist, plz connect to admin',
                 'code':0
             }
 
