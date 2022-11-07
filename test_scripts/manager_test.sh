@@ -18,9 +18,10 @@ curl -X POST http://103.238.162.37:9494/manager/login -c manager.cookies -H 'Con
 
 # curl -X POST http://103.238.162.37:9494/manager/review_task -b manager.cookies -H 'Content-Type: application/json' -d '{"annotator_id":"156","task_id":1}'
 
-curl -X POST http://103.238.162.37:9494/manager/get_task_list -b manager.cookies
+# curl -X POST http://103.238.162.37:9494/manager/get_task_list -b manager.cookies
 
-curl -X POST http://103.238.162.37:9494/manager/review_one_data_point -b manager.cookies -H 'Content-Type: application/json' -d '{"annotated_filename":"80d69f45a35caa22011ae3c9290f9cafbe475f2ba5057ad3eaea7c8cb425f044.json"}'
+# curl -X POST http://103.238.162.37:9494/manager/review_one_data_point -b manager.cookies -H 'Content-Type: application/json' -d '{"annotated_filename":"80d69f45a35caa22011ae3c9290f9cafbe475f2ba5057ad3eaea7c8cb425f044.json"}'
+curl -X POST http://103.238.162.37:9494/data/download -b manager.cookies --output test.zip
 
 
 # manager logout

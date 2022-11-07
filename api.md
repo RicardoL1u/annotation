@@ -323,6 +323,33 @@ Task_status == 2 表示这个task - review完成并认同最新一次的结果
 >
 >Task_status == 2 表示这个task - review完成并认同最新一次的结果
 
+## Manager Review One Data Point
+
+| URL                                               | METHOD | Cookie | Tips |
+| ------------------------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/manager/review_one_data_point | POST   | True   |      |
+
+**Request Body**
+
+```json
+{
+  "annotated_filename":"b69beecf1775563c976831aef3d03681684da796739b80d84ecbb18c416b098d.json",
+  // 注意这个.json的后缀必不可少
+}
+```
+
+**Return Info**
+
+```json
+{
+        "annotated_data":json.load(open("data/"+annotated_filename)),
+        "annotator_id": data.annotator_id,
+        "create_timestamp":data.create_timestamp,
+        "passage_ori_id":data.passage_ori_id,
+        "code":1
+}
+```
+
 ## Manager Signup Annotator
 
 | URL                                           | METHOD | Cookie | Tips |
@@ -349,3 +376,33 @@ Task_status == 2 表示这个task - review完成并认同最新一次的结果
 ```
 
 这里有一个 suc_cnt 是因为 一篇文章只能被 assign 给一个 annotator 一次，如果第二次重复assign，就会失败，并跳过这一次assign
+
+# Data
+
+## Download
+
+## Manager Signup Annotator
+
+| URL                               | METHOD | Cookie | Tips |
+| --------------------------------- | ------ | ------ | ---- |
+| 103.238.162.37:9522/data/download | POST   | True   |      |
+
+**Request Body**
+
+```json
+
+```
+
+**Return Info**
+
+```json
+
+```
+
+> 对于一个annotator 只会返还由他标注的所有数据
+>
+> 对于 manager 而言则会直接返还所有数据
+>
+> 是一个zip 文件
+
+

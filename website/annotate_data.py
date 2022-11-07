@@ -1,5 +1,10 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for,redirect
 from flask_login import login_required, current_user
+from flask import send_file
+from glob import glob
+from io import BytesIO
+from zipfile import ZipFile
+import os
 # from .models import Note
 from . import db
 import json
@@ -81,4 +86,21 @@ def data(hash_id):
 
 
 
+@annotate_data.route("/download", methods=["POST"])
+@login_required
+def download():
+    if current_user.role == "annotator":
+        data_list = AnnotatedData.query.filter_by(annotator_id=current_user.id).all()
+    elif current_user.role == "manager":
+        data_list = AnnotatedData.query.all()
+    stream = BytesIO()
+    with ZipFile(stream, 'w') as zf:
+        for file in [data.annotated_filename for data in data_list]:
+            zf.write(os.path.join('data',file), os.path.basename(file))
+    stream.seek(0)
 
+    return send_file(
+        stream,
+        as_attachment=True,
+        download_name='archive.zip'
+    )

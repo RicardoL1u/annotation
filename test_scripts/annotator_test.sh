@@ -12,7 +12,7 @@ curl -X POST http://103.238.162.37:9494/annotator/login -c annotator.cookies -H 
 # curl -X GET http://103.238.162.37:9494/data/pageID=e5f75fc51377a2b3a1490f2b3e62ccd6359070e13d10ed3b08017e0f784ec519 -b annotator.cookies
 
 # "data" contain the annotated result of 13th passage
-curl -X POST http://103.238.162.37:9494/data/pageID=e5f75fc51377a2b3a1490f2b3e62ccd6359070e13d10ed3b08017e0f784ec519 -b annotator.cookies -H 'Content-Type: application/json' -d '{"data":{"id":"156","token":"password"}}'
-# curl -X POST http://103.238.162.37:9494/annotator/get_task_list -b annotator.cookies
+# curl -X POST http://103.238.162.37:9494/data/pageID=e5f75fc51377a2b3a1490f2b3e62ccd6359070e13d10ed3b08017e0f784ec519 -b annotator.cookies -H 'Content-Type: application/json' -d '{"data":{"id":"testdata","token":"testdata"}}'
+curl -X POST http://103.238.162.37:9494/data/download -b annotator.cookies --output test.zip
 #
 curl -X POST http://103.238.162.37:9494/annotator/logout -b annotator.cookies
