@@ -5,6 +5,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from . import db
 from .models import Annotator,AnnotatorTask,Passage
 from .annotate_data import dataset
+from datetime import timedelta
 annotator = Blueprint('annotator', __name__)
 # dataset = json.load(open('website/company_data.json'))
 
@@ -21,7 +22,7 @@ def login():
         annotator = Annotator.query.filter_by(id=id).first()
         if annotator:
             if check_password_hash(annotator.token, token):
-                login_user(annotator,remember=True)
+                login_user(annotator,remember=True,duration=timedelta(hours=12))
                 return {
                     'message': 'Logged in successfully!',
                     'code': 1,

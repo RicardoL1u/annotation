@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, url_for,redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import Manager,Annotator, AnnotatorTask,Passage,AnnotatedData
+from datetime import timedelta
 from . import db
 import json
 from .annotate_data import dataset
@@ -19,7 +20,7 @@ def login():
         manager = Manager.query.filter_by(id=id).first()
         if manager:
             if check_password_hash(manager.token, token):
-                login_user(manager,remember=True)
+                login_user(manager,remember=True,duration=timedelta(hours=12))
                 return {
                     'message': 'Logged in successfully!',
                     'code': 1,
