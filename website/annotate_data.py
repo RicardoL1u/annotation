@@ -4,29 +4,37 @@ from flask_login import login_required, current_user
 from . import db
 import json
 from datetime import datetime
+from hashlib import sha256
 from .models import Passage, Annotator, AnnotatorTask, AnnotatedData
 annotate_data = Blueprint('annotate_data', __name__)
-dataset = json.load(open('data/company_data.json'))
+dataset = {v['id']:v for v in json.load(open('data/company_data.json'))}
 
 
-@annotate_data.route('/pageID=<idx>',methods=['GET','POST'])
+@annotate_data.route('/pageID=<hash_id>',methods=['GET','POST'])
 @login_required
-def data(idx):
+def data(hash_id):
     if current_user.role != 'annotator':
         return {
             'message': "Only annotators can access this page.",
             'code': 0
         }
-    idx = int(idx)
-    # if idx not in [unit.passage_id for unit in AnnotatorTask.query.filter_by(annotator_id = current_user.id).all()]:
-    task = AnnotatorTask.query.filter_by(annotator_id = current_user.id,passage_id=idx).first()
-    if not task:
+    if hash_id not in dataset.keys():
         return {
-            'message': "This annotation task is not available for you",
+            'message': "passage doesn't exist",
             'code': 0
         }
+    task = AnnotatorTask.query.filter_by(annotator_id = current_user.id,passage_ori_id=hash_id).first()
+    if not task:
+        passage = Passage.query.filter_by(ori_id=hash_id).first()
+        task = AnnotatorTask(
+            annotator_id=current_user.id, 
+            passage_id=passage.id,
+            passage_ori_id = passage.ori_id
+        )
+        db.session.add(task)
+        db.session.commit()
     if request.method=='GET':
-        data = dataset[idx-1] # because the database passage index starts at 1 !!!!!
+        data = dataset[hash_id] # because the database passage index starts at 1 !!!!!
         if 'altLabel' not in data['topic_entity']['zh'].keys():
             data['topic_entity']['zh']['altLabel'] = []
         return {
@@ -35,7 +43,8 @@ def data(idx):
             'code': 1
         }
     elif request.method=='POST':
-        annotated_filename = f'{idx}_{current_user.id}_{task.passage_ori_id}_{task.task_done_number}.json'
+        annotated_filename = f'{task.passage_id}_{current_user.id}_{task.passage_ori_id}_{task.task_done_number}'
+        annotated_filename = sha256(annotated_filename.encode()).hexdigest()+'.json'
         with open('data/'+annotated_filename, 'w') as f:
             json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
         task.task_done_number += 1
@@ -43,7 +52,7 @@ def data(idx):
         task.annotated_filename = annotated_filename
         task.task_status = 1
         new_annotated_data = AnnotatedData(
-            passage_id=task.passage_id,
+            passage_ori_id=task.passage_ori_id,
             annotator_id=current_user.id,
             annotated_filename=annotated_filename,
         )
@@ -52,6 +61,7 @@ def data(idx):
         db.session.commit()
         return {
             'message': "Annotation Task Done!",
+            'annotated_filename': annotated_filename,
             'code': 1
         }
 

@@ -32,7 +32,9 @@
 ## Annotator Get one Data Point
 | URL                            | METHOD | Cookie | Tips                                |
 | ------------------------------ | ------ | ------ | ----------------------------------- |
-| 103.238.162.37:9522/data/pageID=idx | GET    | True   | Idx是一个数据点在整个数据集中的下标 |
+| 103.238.162.37:9522/data/pageID=hasd_id | GET    | True   |  |
+
+> 具体hash_id要从 37:/data/lyt/workspace/annotation/data/company_data.json 中获取
 
 **Request Body**
 
@@ -54,6 +56,10 @@ None
 | URL                            | METHOD | Cookie | Tips                                     |
 | ------------------------------ | ------ | ------ | ---------------------------------------- |
 | 103.238.162.37:9522/data/pageID=idx | POST   | False  | 注意和上一个api区分（上一个采用GET方法） |
+
+> 具体hash_id要从 37:/data/lyt/workspace/annotation/data/company_data.json 中获取
+>
+> 这里在最新的更新之后：不再需要通过assign task 来具体分配给 当前annotator 才能访问了，（访问限制通过hash id来实现）
 
 **Request Body**
 
@@ -78,6 +84,7 @@ None
 ```json
 {
   "message":"Annotation Task Done!",
+  "annotated_filename":"b69beecf1775563c976831aef3d03681684da796739b80d84ecbb18c416b098d.json",
   "code":0
 }
 ```
