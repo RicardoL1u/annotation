@@ -41,7 +41,7 @@ passage = Table(
 annotated_data = Table(
    'annotated_data', meta, 
    Column('id', Integer, primary_key=True, autoincrement=True), 
-   Column('passage_id', Integer, ForeignKey('passage.id')),
+   Column('passage_ori_id', Integer, ForeignKey('passage.id')),
    Column('create_timestamp', DATETIME, default = "CURRENT_TIMESTAMP"), 
    Column('annotator_id', String, ForeignKey('annotator.id')),
    Column('annotated_filename', String, nullable=False,unique=True), 
