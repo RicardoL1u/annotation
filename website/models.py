@@ -24,7 +24,7 @@ class Passage(db.Model):
 class AnnotatedData(db.Model):
     __tablename__ = 'annotated_data'
     id = db.Column(db.Integer, primary_key=True)
-    passage_id = db.Column(db.String,db.ForeignKey('passage.id'))
+    passage_ori_id = db.Column(db.String,db.ForeignKey('passage.ori_id'))
     create_timestamp = db.Column(db.TIMESTAMP, default=func.now())
     annotator_id = db.Column(db.String, db.ForeignKey('annotator.id'))
     annotated_filename = db.Column(db.String,nullable=False)
