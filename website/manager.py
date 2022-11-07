@@ -85,7 +85,7 @@ def assign_task():
         'code': 1
     }
 
-@manager.route('sign_up_annotator',methods=['POST'])
+@manager.route('/sign_up_annotator',methods=['POST'])
 @login_required
 def sign_up_annotator():
     new_annotator = Annotator(
@@ -100,6 +100,24 @@ def sign_up_annotator():
     return {
         'message': f'Annotator has been successfully sign up',
         'code':0
+    }
+
+@manager.route('/review_one_data_point', methods=['POST'])
+@login_required
+def review_one_data_point():
+    annotated_filename = request.json.get('annotated_filename')
+    data = AnnotatedData.query.filter_by(annotated_filename=annotated_filename).first()
+    if not data:
+        return {
+            'message': 'The annotated data file you requested has not been created yet',
+            'code':0
+        }
+    return {
+        'annotated_data':json.load(open('data/'+annotated_filename)),
+        'annotator_id': data.annotator_id,
+        'create_timestamp':data.create_timestamp,
+        'passage_ori_id':data.passage_ori_id,
+        'code':1
     }
 
 @manager.route('/get_task_list',methods=["POST"])
