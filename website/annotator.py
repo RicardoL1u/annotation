@@ -81,7 +81,7 @@ def get_task_list():
 
 #     return render_template("sign_up.html", user=current_user)
 
-@annotator.route('/logout', methods=['POST'])
+@annotator.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()

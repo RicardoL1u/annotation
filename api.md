@@ -123,7 +123,7 @@ None
 
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
-| 103.238.162.37:9522/annotator/logout | POST   | True  |      |
+| 103.238.162.37:9522/annotator/logout | GET   | True  |      |
 
 **Request Body**
 ```json
@@ -167,7 +167,7 @@ None
 ## Manager Logout
 | URL                            | METHOD | Cookie | Tips |
 | ------------------------------ | ------ | ------ | ---- |
-| 103.238.162.37:9522/manager/logout | POST   | True  |      |
+| 103.238.162.37:9522/manager/logout | GET   | True  |      |
 
 **Request Body**
 ```json
