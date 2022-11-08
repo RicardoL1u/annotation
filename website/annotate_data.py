@@ -92,7 +92,10 @@ def download():
     if current_user.role == "annotator":
         data_list = AnnotatedData.query.filter_by(annotator_id=current_user.id).all()
     elif current_user.role == "manager":
-        data_list = AnnotatedData.query.all()
+        annotators = Annotator.query.fitler_by(manager_id=current_user.id).all()
+        data_list = []
+        for annotator in annotators:
+            data_list.extend(AnnotatedData.query.filter_by(annotator_id=annotator.id).all())
     stream = BytesIO()
     with ZipFile(stream, 'w') as zf:
         for file in [data.annotated_filename for data in data_list]:
