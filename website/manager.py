@@ -113,9 +113,11 @@ def review_one_data_point():
             'message': 'The annotated data file you requested has not been created yet',
             'code':0
         }
+    annotator = Annotator.query.get(data.annotator_id) 
     return {
         'annotated_data':json.load(open('data/'+annotated_filename)),
         'annotator_id': data.annotator_id,
+        'annotator_name':annotator.name,
         'create_timestamp':data.create_timestamp,
         'passage_ori_id':data.passage_ori_id,
         'code':1
