@@ -92,7 +92,7 @@ def download():
     if current_user.role == "annotator":
         data_list = AnnotatedData.query.filter_by(annotator_id=current_user.id).all()
     elif current_user.role == "manager":
-        annotators = Annotator.query.fitler_by(manager_id=current_user.id).all()
+        annotators = Annotator.query.filter_by(manager_id=current_user.id).all()
         data_list = []
         for annotator in annotators:
             data_list.extend(AnnotatedData.query.filter_by(annotator_id=annotator.id).all())
