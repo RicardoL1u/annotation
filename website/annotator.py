@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from . import db
-from .models import Annotator,AnnotatorTask,Passage
+from .models import Annotator,AnnotatorTask,Passage,Manager
 from .annotate_data import dataset
 from datetime import timedelta
 annotator = Blueprint('annotator', __name__)
@@ -19,12 +19,14 @@ def login():
         token = request.json.get('token')
         print(id)
         print(token)
-        annotator = Annotator.query.filter_by(id=id).first()
-        if annotator:
-            if check_password_hash(annotator.token, token):
-                login_user(annotator,remember=True,duration=timedelta(hours=12))
+        user = Annotator.query.filter_by(id=id).first()
+        if not user:
+            user = Manager.query.filter_by(id=id).first()
+        if user:
+            if check_password_hash(user.token, token):
+                login_user(user,remember=True,duration=timedelta(hours=12))
                 return {
-                    'message': 'Logged in successfully!',
+                    'message': f'{user.role} {user.name} logged in successfully!',
                     'code': 1,
                 }
             else:
@@ -34,7 +36,7 @@ def login():
                 }
         else:
             return {
-                'message':'Annotator not exist, plz connect to your manager',
+                'message':'User not exist, plz connect to your manager',
                 'code':0
             }
 
