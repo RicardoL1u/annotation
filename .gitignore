@@ -4,3 +4,5 @@ website/__pycache__
 website/database.db
 *.cookies
 *.db
+temp/
+instance/create_table.py
