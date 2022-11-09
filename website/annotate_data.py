@@ -66,7 +66,7 @@ def data(hash_id):
         db.session.commit()
         return {
             'message': "Annotation Task Done!",
-            'annotated_filename': annotated_filename,
+            'annotated_filename': annotated_filename[:-5],
             'code': 1
         }
 
