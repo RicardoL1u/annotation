@@ -89,6 +89,19 @@ def assign_task():
 @manager.route('/sign_up_annotator',methods=['POST'])
 @login_required
 def sign_up_annotator():
+    if current_user.role != 'manager':
+        return {
+            'message': 'You have to be a manager to sign up annotator.',
+            'code': 0
+        }
+        
+    if Manager.query.get(request.json.get('annotator_id')) or Annotator.query.get(request.json.get('annotator_id')):
+        return {
+            'message': 'this phone number has been already used!',
+            'code': 0
+        }
+
+
     new_annotator = Annotator(
         id=request.json.get('annotator_id'),
         name = request.json.get('annotator_name'),
@@ -100,7 +113,7 @@ def sign_up_annotator():
     db.session.commit()
     return {
         'message': f'Annotator has been successfully sign up',
-        'code':0
+        'code':1
     }
 
 @manager.route('/review_one_data_point', methods=['POST'])
