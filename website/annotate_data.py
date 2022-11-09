@@ -13,7 +13,7 @@ from datetime import datetime
 from hashlib import sha256
 from .models import Passage, Annotator, AnnotatorTask, AnnotatedData
 annotate_data = Blueprint('annotate_data', __name__)
-dataset = {v['id']:v for v in json.load(open('data/company_data_0.8.json'))}
+dataset = {v['id']:v for v in json.load(open('resource/company_data_0.8.json'))}
 
 
 @annotate_data.route('/pageID=<hash_id>',methods=['GET','POST'])
