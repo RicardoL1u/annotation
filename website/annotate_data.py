@@ -8,6 +8,7 @@ import os
 # from .models import Note
 from . import db
 import json
+import pytz
 from datetime import datetime
 from hashlib import sha256
 from .models import Passage, Annotator, AnnotatorTask, AnnotatedData
@@ -53,7 +54,7 @@ def data(hash_id):
         with open('data/'+annotated_filename, 'w') as f:
             json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
         task.task_done_number += 1
-        task.last_done_timestamp = datetime.now()
+        task.last_done_timestamp = datetime.now(pytz.timezone('Asia/Hong_Kong')
         task.annotated_filename = annotated_filename
         task.task_status = 1
         new_annotated_data = AnnotatedData(
