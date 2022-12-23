@@ -50,11 +50,11 @@ def data(hash_id):
         }
     elif request.method=='POST':
         annotated_filename = f'{task.passage_id}_{current_user.id}_{task.passage_ori_id}_{task.task_done_number}'
-        annotated_filename = sha256(annotated_filename.encode()).hexdigest()+'.json'
+        annotated_filename = 'hz_'+sha256(annotated_filename.encode()).hexdigest()+'.json'
         with open('data/'+annotated_filename, 'w') as f:
             json.dump(request.json.get('data'),f,indent=4,ensure_ascii=False)
         task.task_done_number += 1
-        task.last_done_timestamp = datetime.now(pytz.timezone('Asia/Hong_Kong')
+        task.last_done_timestamp = datetime.now(pytz.timezone('Asia/Hong_Kong'))
         task.annotated_filename = annotated_filename
         task.task_status = 1
         new_annotated_data = AnnotatedData(

@@ -5,6 +5,7 @@ from .models import Manager,Annotator, AnnotatorTask,Passage,AnnotatedData
 from datetime import timedelta
 from . import db
 import json
+import pytz
 from .annotate_data import dataset
 manager = Blueprint('manager', __name__)
 
@@ -116,6 +117,12 @@ def sign_up_annotator():
         'code':1
     }
 
+def utc_to_local(utc_dt):
+    local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(pytz.timezone('Asia/Hong_Kong'))
+    return pytz.timezone('Asia/Hong_Kong').normalize(local_dt) # .normalize might be unnecessary
+def aslocaltimestr(utc_dt):
+    return utc_to_local(utc_dt).strftime('%Y-%m-%d %H:%M:%S.%f %Z%z')
+
 @manager.route('/review_one_data_point', methods=['POST'])
 @login_required
 def review_one_data_point():
@@ -126,12 +133,13 @@ def review_one_data_point():
             'message': 'The annotated data file you requested has not been created yet',
             'code':0
         }
+
     annotator = Annotator.query.get(data.annotator_id) 
     return {
         'annotated_data':json.load(open('data/'+annotated_filename)),
         'annotator_id': data.annotator_id,
         'annotator_name':annotator.name,
-        'create_timestamp':data.create_timestamp,
+        'create_timestamp':aslocaltimestr(data.create_timestamp),
         'passage_ori_id':data.passage_ori_id,
         'code':1
     }
