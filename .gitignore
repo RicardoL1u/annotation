@@ -6,3 +6,4 @@ website/database.db
 *.db
 temp/
 instance/create_table.py
+record/
